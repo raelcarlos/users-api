@@ -16,5 +16,11 @@
     "password" : "password3",
     "profession" : "clerk",
     "id": 3
+  },
+  "user4" : {
+    "name" : "israel_carlos",
+    "password" : "password1234",
+    "profession" : "java_developer",
+    "id" : 4
   }
 }
