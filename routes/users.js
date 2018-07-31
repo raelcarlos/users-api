@@ -19,15 +19,6 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/addold', function (req, res) {
-    fs.readFile( './users.json', 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        data["user4"] = user["user4"];
-        console.log( data );
-        res.end( JSON.stringify(data));
-    });
-});
-
 router.post('/add', function (req, res) {
     fs.readFile( './users.json', 'utf8', function (err, data) {
         data = JSON.parse( data );
@@ -35,6 +26,16 @@ router.post('/add', function (req, res) {
         data["user4"] = new_user;
         console.log( data );
         res.end( JSON.stringify(data));
+        res.end();
+    });
+});
+
+router.get('/:id', function(req, res) {
+    fs.readFile('./users.json', 'utf8', function (err, data) {
+        data = JSON.parse(data);
+        var user = data["user" + req.params.id];
+        console.log(user);
+        res.end(JSON.stringify(user));
     });
 });
 
