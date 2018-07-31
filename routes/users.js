@@ -39,4 +39,13 @@ router.get('/:id', function(req, res) {
     });
 });
 
+router.get('/delete/:id', function(req, res) {
+    fs.readFile('./users.json', 'utf-8', function(err, data) {
+        data = JSON.parse(data);
+        delete data["user" + req.params.id];
+        console.log(data);
+        res.end(JSON.stringify( data ));
+    });
+});
+
 module.exports = router;
