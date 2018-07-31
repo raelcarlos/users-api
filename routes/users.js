@@ -42,7 +42,7 @@ router.get('/delete/:id', function(req, res) {
     fs.readFile('./users.json', 'utf-8', function(err, data) {
         data = JSON.parse(data);
         delete data["user" + req.params.id];
-        console.log( data );
+        console.log(data);
         res.end(JSON.stringify( data ));
     });
 });
