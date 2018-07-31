@@ -38,7 +38,7 @@ router.post('/add', function (req, res) {
     });
 });
 
-router.get('/deleteUser/:id', function(req, res) {
+router.get('/delete/:id', function(req, res) {
     fs.readFile('./users.json', 'utf-8', function(err, data) {
         data = JSON.parse(data);
         delete data["user" + req.params.id];
