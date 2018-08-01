@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var dao = require('../src/dao');
+
 
 var user = {
     "user4" : {
@@ -12,21 +14,28 @@ var user = {
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-    fs.readFile('./users.json', 'utf8', function (err, data) {
-        console.log(data);
-        res.end(data);
+router.get('/', function(req, res) {
+    new dao().findAll(function(err, result) {
+        if (err) {
+            return res.sendStatus(400);
+        }
+        if (result) {
+            console.log(result);
+            return res.send(200, result);
+        }
     });
 });
 
 router.post('/add', function (req, res) {
-    fs.readFile( './users.json', 'utf8', function (err, data) {
-        data = JSON.parse( data );
-        var new_user = req.body;
-        data["user4"] = new_user;
-        console.log( data );
-        res.end( JSON.stringify(data));
-        res.end();
+    var new_user = req.body;
+    new dao().save(new_user, function (err, result) {
+        if (err) {
+            return res.sendStatus(400);
+        }
+        if (result) {
+            console.log(result);
+            return res.send(200, result);
+        }
     });
 });
 
