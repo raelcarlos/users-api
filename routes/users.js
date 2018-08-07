@@ -4,16 +4,6 @@ var fs = require('fs');
 var dao = require('../src/dao');
 
 
-var user = {
-    "user4" : {
-        "name" : "mohit",
-        "password" : "password4",
-        "profession" : "teacher",
-        "id": 4
-    }
-}
-
-/* GET users listing. */
 router.get('/', function(req, res) {
     new dao().findAll(function(err, result) {
         if (err) {
