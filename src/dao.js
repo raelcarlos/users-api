@@ -26,6 +26,28 @@ class dao {
         });
     }
 
+    findById(id, callback) {
+        mongo_client.connect(url, function(err, db) {
+            if (err) {
+                console.log('Unable to connect do MongoDb Server. Error:', err);
+                callback(err);
+            } else {
+                db.collection('users').find({"user.id" : id}).toArray(function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        db.close();
+                        return callback(err);
+                    }
+                    if (result) {
+                        db.close();
+                        return callback(err, result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    }
+
     save(user, callback) {
         mongo_client.connect(url, function(err, db) {
             if (err) {
@@ -43,6 +65,25 @@ class dao {
                         return callback(err, result);
                     }
                     db.close();
+                });
+            }
+        });
+    }
+
+    deleteById(id, callback) {
+        mongo_client.connect(url, function(err, db) {
+            if (err) {
+                console.log('Unable to connect do MongoDb Server. Error:', err);
+                callback(err);
+            } else {
+                db.collection('users').deleteOne({"user.id" : id}, function (err) {
+                    if (err) {
+                        console.log(err);
+                        db.close();
+                        return callback(err);
+                    }
+                    db.close();
+                    return callback(err);
                 });
             }
         });

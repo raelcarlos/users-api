@@ -40,21 +40,33 @@ router.post('/add', function (req, res) {
 });
 
 router.get('/:id', function(req, res) {
-    fs.readFile('./users.json', 'utf8', function (err, data) {
-        data = JSON.parse(data);
-        var user = data["user" + req.params.id];
-        console.log(user);
-        res.end(JSON.stringify(user));
+    var id = req.params.id;
+    if (!id) {
+        return res.sendStatus(412);
+    }
+    new dao().findById(parseInt(id), function(err, result) {
+        if (err) {
+            return res.sendStatus(400);
+        }
+        if (result) {
+            console.log(result);
+            return res.send(200, result);
+        }
     });
 });
 
 router.get('/delete/:id', function(req, res) {
-    fs.readFile('./users.json', 'utf-8', function(err, data) {
-        data = JSON.parse(data);
-        delete data["user" + req.params.id];
-        console.log(data);
-        res.end(JSON.stringify( data ));
+    var id = req.params.id;
+    if (!id) {
+        return res.sendStatus(412);
+    }
+    new dao().deleteById(parseInt(id), function(err) {
+        if (err) {
+            return res.sendStatus(400);
+        }
+        return res.status(200).send("Registro deletado.");
     });
+
 });
 
 module.exports = router;
